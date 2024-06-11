@@ -1,81 +1,76 @@
 <!DOCTYPE html>
-<html lang="id">
+<html :class="{ 'theme-dark': dark }" x-data="data()" lang="en">
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>BAWASLU | Pengadaan</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Pengadaan | Dashboard</title>
     <link rel="icon" type="image/x-icon" href="{{ asset('dist/img/logokalsel.png') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="./assets/css/tailwind.output.css" />
+    <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js" defer></script>
+    <script src="./assets/js/init-alpine.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js" defer></script>
+    <script src="./assets/js/charts-lines.js" defer></script>
+    <script src="./assets/js/charts-pie.js" defer></script>
 
+    <style>
+        main::-webkit-scrollbar {
+            display: none;
+        }
 
-    <!-- Google Font: Source Sans Pro -->
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
-    <!-- Font Awesome Icons -->
-    <link rel="stylesheet" href="{{ asset('plugins/fontawesome-free/css/all.min.css') }}">
-    <!-- overlayScrollbars -->
-    <link rel="stylesheet" href="{{ asset('plugins/overlayScrollbars/css/OverlayScrollbars.min.css') }}">
-    <!-- Theme style -->
-    <link rel="stylesheet" href="{{ asset('dist/css/adminlte.min.css') }}">
+        main {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+
+        /* .sidebar-menu-item.active {
+            background-color: purple;
+            /* Ganti warna latar belakang sesuai kebutuhan */
+        color: #000;
+        /* Ganti warna teks sesuai kebutuhan */
+        }
+
+        */ .active {
+            background-color: purple;
+            /* Warna background untuk elemen aktif */
+            color: white;
+            /* Warna teks untuk elemen aktif */
+        }
+
+    </style>
 
 </head>
-<body class="hold-transition dark-mode sidebar-mini layout-fixed layout-navbar-fixed layout-footer-fixed">
-    <div class="wrapper">
-
-        <!-- Preloader -->
-        <div class="preloader flex-column justify-content-center align-items-center">
-            <img class="" src="{{ asset('dist/img/kalsel.png') }}" alt="BawasluLogo" height="15%" width="20%">
-
-        </div>
-        {{-- navbar atas --}}
-        @include('template.navbar')
+<body>
+    <div class="flex h-screen bg-gray-50 dark:bg-gray-900" :class="{ 'overflow-hidden': isSideMenuOpen }">
 
         {{-- sidebar --}}
         @include('template.sidebar')
+        <div class="flex flex-col flex-1 w-full">
+            @include('template.navbar')
 
-        @yield('konten')
 
-        <!-- Control Sidebar -->
-        <aside class="control-sidebar control-sidebar-dark">
-            <!-- Control sidebar content goes here -->
-        </aside>
-        <!-- /.control-sidebar -->
+            @yield('konten')
 
-        {{-- footer --}}
-        @include('template.footer')
+        </div>
     </div>
-    <!-- ./wrapper -->
-
-
-    <!-- REQUIRED SCRIPTS -->
-    <!-- jQuery -->
-    <script src="{{ asset('plugins/jquery/jquery.min.js') }}"></script>
-    <!-- Bootstrap -->
-    <script src="{{ asset('plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
-    <!-- overlayScrollbars -->
-    <script src="{{ asset('plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js') }}"></script>
-    <!-- AdminLTE App -->
-    <script src="{{ asset('dist/js/adminlte.js') }}"></script>
-
     <script>
-        // Pastikan Bootstrap sudah di-load sebelum kode ini dijalankan
-        document.addEventListener("DOMContentLoaded", function(event) {
-            // Inisialisasi carousel dengan ID carouselExampleSlidesOnly
-            var myCarousel = document.querySelector('#carouselExampleSlidesOnly')
-            var carousel = new bootstrap.Carousel(myCarousel, {
-                interval: 2000, // Ubah nilai interval sesuai kebutuhan Anda (dalam milidetik)
-                wrap: true // Jika ingin carousel berputar secara terus menerus, ubah menjadi true
-            })
+        // Ambil semua item menu
+        const menuItems = document.querySelectorAll('.sidebar-menu-item');
+
+        // Tambahkan event listener untuk setiap item menu
+        menuItems.forEach(item => {
+            item.addEventListener('click', () => {
+                // Hapus kelas aktif dari semua item menu
+                menuItems.forEach(menu => {
+                    menu.classList.remove('active');
+                });
+                // Tambahkan kelas aktif ke item menu yang dipilih
+                item.classList.add('active');
+            });
         });
 
     </script>
-
-    <!-- PAGE PLUGINS -->
-    <!-- jQuery Mapael -->
-    <script src="{{ asset('plugins/jquery-mousewheel/jquery.mousewhee') }}l.js"></script>
-    <script src="{{ asset('plugins/raphael/raphael.min.js') }}"></script>
-    <script src="{{ asset('plugins/jquery-mapael/jquery.mapael.min.js') }}"></script>
-    <script src="{{ asset('plugins/jquery-mapael/maps/usa_states.min.js') }}"></script>
-    <!-- ChartJS -->
-    <script src="{{ asset('plugins/chart.js/Chart.min.js') }}"></script>
 
 </body>
 </html>
